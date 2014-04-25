@@ -1,0 +1,241 @@
+<div class="row">
+    <div class="col-md-4">
+
+        <div class="btn-group btn-default hidden-print">
+            <button type="button" class="btn btn-default" ng-click="loadRandomTuneSet(playDateFilter)">
+                Random: {{playDateFilter}}
+            </button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-click="loadRandomTuneSet('All Sets')" ><a href="" >All Sets</a></li>
+                <li ng-click="loadRandomTuneSet('Played Last Day')"><a href="" >Played Last Day</a></li>
+                <li ng-click="loadRandomTuneSet('Played Last Week')"><a href="" >Played Last Week</a></li>
+                <li ng-click="loadRandomTuneSet('Played Last Month')"><a href="" >Played Last Month</a></li>
+                <li ng-click="loadRandomTuneSet('Played Last Year')"><a href="" >Played Last Year</a></li>
+                <li ng-click="loadRandomTuneSet('Played Never')"><a href="" >Played Never</a></li>
+            </ul>
+        </div>
+
+        <br>
+
+
+        <div class="btn-group hidden-print">
+            <button type="button" class="btn btn-default dropdown-toggle  active" data-toggle="dropdown">
+                <strong> {{ currentFirstTuneSetPosition.tune.title | eliminateThe }} </strong> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="firstTuneSetPosition in firstTuneSetPositions | orderBy:'tune.title'"><a href="#sets/{{firstTuneSetPosition.tuneSetId}}" >{{ firstTuneSetPosition.tune.title }}</a></li>
+            </ul>
+        </div>
+
+        <!--
+        <select class="form-control" id="tuneSetSelector" ng-model="firstTuneSetPosition" ng-options="(firstTuneSetPosition.tune.title | eliminateThe) + ' (Set ' + firstTuneSetPosition.tuneSetId + ')'  for firstTuneSetPosition in firstTuneSetPositions | orderBy:'tune.title'">	</select>
+        -->
+
+        <div class="btn-group hidden-print">
+            <button type="button" ng-click="justPlayedTheSet(tuneSet)" class="btn btn-default">
+                Just Played
+            </button>
+
+            <button type="button" ng-click="editTuneSet(tuneSet)" class="btn btn-default">
+                Edit
+            </button>
+        </div>
+
+
+
+
+
+
+        <!--
+
+        <div class="btn-group tuneSetBtn">
+            <button type="button" class="btn btn-default dropdown-toggle  active" data-toggle="dropdown" ng-style="{'background-color':tune.color}">
+                Action <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-click="editTuneSet(tuneSet)">Edit</li>
+                <li ng-click="justPlayedTheSet(tuneSet)">Just Played</li>
+            </ul>
+        </div>
+        -->
+
+        <!--
+        <div class="tuneSetInfo">
+            <div class="tuneSetNr btn-group pull-right">
+                <a class='btn btn-xs' ng-click="editTuneSet(tuneSet)" title="Edit TuneSet">Set {{tuneSet.tuneSetId}}</a>
+                <a class='btn btn-xs justPlayedTheTuneSet' ng-click="justPlayedTheSet(tuneSet)" title="Just Played The Set">Just Played</a>
+            </div>
+
+        </div>
+        -->
+        <ul class='tuneSetBox'>
+            <div class="tuneSetInfoLine">
+                <div class="tuneSetTarget" ng-show="tuneSet.tuneSetTarget">{{tuneSet.tuneSetTarget}}</div>
+                <div class="tuneSetEnv" ng-show="tuneSet.tuneSetEnv">{{tuneSet.tuneSetEnv}}</div>
+                <div class="tuneSetName" ng-show="tuneSet.tuneSetName">{{tuneSet.tuneSetName}}</div>
+            </div>
+
+            <div id="TuneSetEditor" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!--
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            -->
+                            <h3>Edit Set {{tuneSetToBeEdited.tuneSetId}}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form" role="form">
+                                <div class="form-group">
+                                    <label class="control-label" for="inputTuneSetTarget">Target</label>
+                                    <div>
+                                        <input type="text" class="form-control" id="inputTuneSetTarget" ng-model="tuneSet.tuneSetTarget" placeholder="Session or Ceili or Set-Dance or Concert">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label" for="inputTuneSetEnv">Environment</label>
+                                    <div >
+                                        <input type="text" class="form-control" id="inputTuneSetEnv" ng-model="tuneSet.tuneSetEnv" placeholder="Location or Band Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label" for="inputTuneSetName">Name</label>
+                                    <div >
+                                        <input type="text" class="form-control" id="inputTuneSetName" ng-model="tuneSet.tuneSetName" placeholder="Set Name">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-default" ng-click="doneTuneSetEditing()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="TuneSetPositionEditor" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!--
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            -->
+                            <h3>Edit {{tuneSetPositionToBeEdited.tune.title | eliminateThe}}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form" role="form">
+                                <div class="form-group">
+                                    <label class="control-label" for="inputPlaytime">Repeat</label>
+                                    <div>
+                                        <input type="text" class="form-control" id="inputPlaytime" ng-model="tuneSetPositionToBeEdited.repeat" placeholder="3">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label" for="inputAnnotation">Comment</label>
+                                    <div>
+                                        <input type="text" class="form-control" id="inputAnnotation" ng-model="tuneSetPositionToBeEdited.annotation">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-default" ng-click="doneTuneSetPositionEditing()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="TuneSetPositionMover" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!--
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            -->
+                            <h3 id="myModalLabel">Move {{tuneSetPositionToBeMoved.tune.title | eliminateThe}}</h3>
+                        </div>
+                        <div class="modal-body" role="form">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label for="beforeOrAfter1">Before</label>
+                                    <input type="radio" class="form-control" name="beforeOrAfter" id="beforeOrAfter1" ng-model="beforeOrAfter" value="before" checked>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="beforeOrAfter2">After</label>
+                                    <input type="radio" class="form-control" name="beforeOrAfter" id="beforeOrAfter2" ng-model="beforeOrAfter" value="after">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sr-only" for="tuneInTuneSet">Tune in TuneSet</label>
+                                    <select class="form-control" id="tuneInTuneSet" ng-model="targetTuneSetPosition" ng-options="(targetTuneSetPosition.tune.title | eliminateThe) + ' (Set ' + targetTuneSetPosition.tuneSetId + ', Pos. ' + targetTuneSetPosition.position + ', ' + targetTuneSetPosition.tune.type + ', ' + targetTuneSetPosition.tune.key + ')'  for targetTuneSetPosition in targetTuneSetPositionsForMoving | orderBy:'tune.title'">	</select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="moveOrCopy1">Move</label>
+                                    <input type="radio" class="form-control" name="moveOrCopy" id="moveOrCopy1" ng-model="moveOrCopy" value="move" checked>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="moveOrCopy2">Copy</label>
+                                    <input type="radio" class="form-control" name="moveOrCopy" id="moveOrCopy2" ng-model="moveOrCopy" value="copy">
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                            <button class="btn btn-default" ng-click="doneMoving(tuneSetPositionToBeMoved, targetTuneSetPosition, beforeOrAfter, moveOrCopy)">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <li class="tuneSetPosition" ng-repeat="tuneSetPosition in tuneSet.tuneSetPositions | orderBy: sortTuneSetPositionAsNumber" ng-style="{'background-color':tuneSetPosition.tune.color}" tbk-show-sample-abc>
+                <div class="view">
+                    <div class="tuneFirstLine">
+                        <div class="btn-group">
+                            <a class="btn btn-default tuneTitle" ng-click="showTune(tuneSetPosition.tune.intTuneId)" title="Show The Dots"><strong>{{tuneSetPosition.tune.title | eliminateThe}}</strong></a>
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="moveTune(tuneSetPosition)">Move</a></li>
+                                <li><a ng-click="deleteTuneSetPosition(tuneSetPosition)">Delete</a></li>
+                                <!--
+                                <li><a ng-click="moveTuneUp(tuneSetPosition)">Move up</a></li>
+                                <li><a ng-click="moveTuneDown(tuneSetPosition)">Move down</a></li>
+                                <li><a ng-click="replaceTune(tuneSetPosition)">Change Tune</a></li>
+                                -->
+                                <li class="divider"></li>
+                                <li><a ng-click="editTuneSetPosition(tuneSetPosition)">Edit</a></li>
+                            </ul>
+                        </div>
+                        <div class="tuneInfoLine">
+                            <div class="tuneType">{{tuneSetPosition.tune.type}}</div>
+                            <div class="tuneKey">{{tuneSetPosition.tune.key}}</div>
+                            <div class="tuneSetPositionRepeat">{{tuneSetPosition.repeat}}</div>
+                        </div>
+                    </div>
+
+                    <div class="tunePlayDateInfo">
+                        <a class='btn btn-xs btn-default justPlayedTheTune' ng-click="justPlayedTheTune(tuneSetPosition.tune)" title="Just Played The Tune">Played</a>
+
+                        <div class="tuneLastPlayed">{{tuneSetPosition.tune.lastPlayed | fromNow}}</div>
+                    </div>
+
+                    <div class="tuneSetPositionAnnotation" ng-show="tuneSetPosition.annotation != ''">{{tuneSetPosition.annotation}}</div>
+                </div>
+
+
+                <div id="sampleDotsViewerForTune{{tuneSetPosition.tune.id}}Set{{tuneSetPosition.tuneSetId}}" class="sampleDotsViewer"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-8"></div>
+</div>

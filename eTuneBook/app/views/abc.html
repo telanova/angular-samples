@@ -1,0 +1,14 @@
+<a class='btn btn-xs btn-default' id="saveTuneBookToFile" href="" title="Export to Local File System" >Export to Local Drive</a>
+<a class='btn btn-xs btn-default' id="saveTuneBookToGoogleDrive" ng-click="saveTuneBookToGoogleDrive()" href="" title="Export to Google Drive" >Export to Google Drive</a>
+
+
+<a class='btn btn-xs btn-default' ng-click="toggleTuneSetAbc()">TuneSets<i ng-show="tuneSetAbcIncl" class="glyphicon glyphicon-ok"></i></a>
+<a class='btn btn-xs btn-default' ng-click="togglePlayDateAbc()">Playdates<i ng-show="playDateAbcIncl" class="glyphicon glyphicon-ok"></i></a>
+<a class='btn btn-xs btn-default' ng-click="toggleSkillAbc()">Skills<i ng-show="skillAbcIncl" class="glyphicon glyphicon-ok"></i></a>
+<a class='btn btn-xs btn-default' ng-click="toggleColorAbc()">Colors<i ng-show="colorAbcIncl" class="glyphicon glyphicon-ok"></i></a>
+<a class='btn btn-xs btn-default' ng-click="toggleAnnotationAbc()">Comments<i ng-show="annotationAbcIncl" class="glyphicon glyphicon-ok"></i></a>
+<a class='btn btn-xs btn-default' ng-click="toggleSiteAbc()">Sites<i ng-show="siteAbcIncl" class="glyphicon glyphicon-ok"></i></a>
+<a class='btn btn-xs btn-default' ng-click="toggleTubeAbc()">Videos<i ng-show="tubeAbcIncl" class="glyphicon glyphicon-ok"></i></a>
+<a class='btn btn-xs btn-default' ng-click="toggleFingeringAbc()">Fingering<i ng-show="fingeringAbcIncl" class="glyphicon glyphicon-ok"></i></a>
+
+<pre id="tuneBookExported">{{exportedTuneBook}}</pre>
